@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<p lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DrawPanel</title>
+        <link rel="stylesheet" href="./style/style.css" />
+    </head>
+    <body>
+        <h1>Draw Panel</h1>
+        <span class="panel">
+            <canvas id="canvas" width="1000" height="800"></canvas>
+        </span>
+        <span class="tools">
+            <button id="clean-canvas-btn">Clean</button>
+            <button id="use-pen-btn">Pen</button>
+            <button id="use-erase-btn">Eraser</button>
+        </span>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./js/script.js"></script>
+
+    </body>
+</html>
