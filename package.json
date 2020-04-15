@@ -1,5 +1,5 @@
 {
-    "name": "drawpanel",
+    "name": "scribble",
     "version": "1.0.0",
     "description": "realtime draw panel",
     "main": "server.js",
@@ -17,5 +17,8 @@
     },
     "devDependencies": {
         "nodemon": "^2.0.3"
+    },
+    "engines": {
+        "node": "10.x"
     }
 }
