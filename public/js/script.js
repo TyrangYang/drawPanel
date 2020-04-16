@@ -133,20 +133,56 @@ let drawOnCanvas = (curX, curY, state) => {
 };
 
 canvas.addEventListener('mousedown', (e) => {
-    drawOnCanvas(e.offsetX, e.offsetY, 'dragStart');
+    // drawOnCanvas(e.offsetX, e.offsetY, 'dragStart');
+    drawOnCanvas(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, 'dragStart');
 });
 canvas.addEventListener('mousemove', (e) => {
-    drawOnCanvas(e.offsetX, e.offsetY, 'drag');
+    // drawOnCanvas(e.offsetX, e.offsetY, 'drag');
+    drawOnCanvas(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, 'drag');
 });
 canvas.addEventListener('mouseup', (e) => {
-    drawOnCanvas(e.offsetX, e.offsetY, 'dragEnd');
+    // drawOnCanvas(e.offsetX, e.offsetY, 'dragEnd');
+    drawOnCanvas(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, 'dragEnd');
 });
 canvas.addEventListener('mouseout', (e) => {
-    drawOnCanvas(e.offsetX, e.offsetY, 'dragEnd');
+    // drawOnCanvas(e.offsetX, e.offsetY, 'dragEnd');
+    drawOnCanvas(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, 'dragEnd');
 });
 
-// canvas.addEventListener('touchstart', e => {
-// })
+canvas.addEventListener('touchstart', e => {
+    // console.log("start",e.touches.length, e.targetTouches.length);
+    if(e.touches.length == 1){
+        e.preventDefault();
+        let touch = e.touches[0]; 
+        drawOnCanvas(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 'dragStart');
+    }
+});
+canvas.addEventListener('touchmove', e => {
+    // console.log("move",e.touches.length, e.targetTouches.length);
+    if(e.touches.length == 1){
+        e.preventDefault();
+        let touch = e.touches[0]; 
+        drawOnCanvas(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 'drag');
+
+    }
+});
+canvas.addEventListener('touchend', e => {
+    // console.log('end',e.touches.length, e.targetTouches.length);
+    if(e.touches.length == 1){
+        e.preventDefault();
+        let touch = e.touches[0]; 
+        drawOnCanvas(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 'dragEnd');
+    }
+});
+
+canvas.addEventListener('touchcancel', e => {
+    console.log('cancel',e.touches.length, e.targetTouches.length);
+    if(e.touches.length == 1){
+        e.preventDefault();
+        let touch = e.touches[0]; 
+        drawOnCanvas(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 'dragEnd');
+    }
+});
 
 clean_btn.addEventListener('click', (e) => {
     e.preventDefault();
