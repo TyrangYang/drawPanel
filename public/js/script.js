@@ -37,8 +37,8 @@ client_socket.on('draw', (data) => {
     drawLine(prev_x, prev_y, x, y, lineWidth, color);
 });
 client_socket.on('erase', (data) => {
-    let { x, y } = data;
-    eraseLine(x, y, 10);
+    let { x, y, eraserSize } = data;
+    eraseLine(x, y, eraserSize);
 });
 client_socket.on('clean', () => {
     cleanCanvas();
@@ -56,7 +56,7 @@ let prev_x = 0,
     prev_y = 0,
     x = 0,
     y = 0;
-let isMouseDown = false;
+let isDrawLineStart = false;
 let using_pen = true;
 let using_eraser = false;
 
@@ -94,47 +94,59 @@ let eraseLine = (x, y, radius) => {
     drawColorCircle(x, y, radius, '#f0f0f0');
 };
 
+let drawOnCanvas = (curX, curY, state) => {
+    if (state === 'dragStart') {
+        prev_x = 0;
+        prev_y = 0;
+        x = curX;
+        y = curY;
+        isDrawLineStart = true;
+    } else if (state === 'drag') {
+        if (isDrawLineStart) {
+            prev_x = x;
+            prev_y = y;
+            x = curX;
+            y = curY;
+            if (using_pen) {
+                drawLine(prev_x, prev_y, x, y, LINE_WIDTH, PEN_COLOR);
+                client_socket.emit('drawRequest', {
+                    prev_x: prev_x,
+                    prev_y: prev_y,
+                    x: x,
+                    y: y,
+                    lineWidth: LINE_WIDTH,
+                    color: PEN_COLOR,
+                });
+            }
+            if (using_eraser) {
+                eraseLine(x, y, eraserSizeSlider.value);
+                client_socket.emit('eraseRequest', {
+                    x: x,
+                    y: y,
+                    eraserSize: eraserSizeSlider.value,
+                });
+            }
+        }
+    } else {
+        isDrawLineStart = false;
+    }
+};
+
 canvas.addEventListener('mousedown', (e) => {
-    prev_x = 0;
-    prev_y = 0;
-    x = e.offsetX;
-    y = e.offsetY;
-    isMouseDown = true;
+    drawOnCanvas(e.offsetX, e.offsetY, 'dragStart');
 });
 canvas.addEventListener('mousemove', (e) => {
-    // console.log('move');
-    // drawColorCircle(e.offsetX, e.offsetY, 3, PEN_COLOR);
-    if (isMouseDown) {
-        prev_x = x;
-        prev_y = y;
-        x = e.offsetX;
-        y = e.offsetY;
-        if (using_pen) {
-            drawLine(prev_x, prev_y, x, y, LINE_WIDTH, PEN_COLOR);
-            client_socket.emit('drawRequest', {
-                prev_x: prev_x,
-                prev_y: prev_y,
-                x: x,
-                y: y,
-                lineWidth: LINE_WIDTH,
-                color: PEN_COLOR,
-            });
-        }
-        if (using_eraser) {
-            eraseLine(x, y, eraserSizeSlider.value);
-            client_socket.emit('eraseRequest', {
-                x: x,
-                y: y,
-            });
-        }
-    }
+    drawOnCanvas(e.offsetX, e.offsetY, 'drag');
 });
 canvas.addEventListener('mouseup', (e) => {
-    isMouseDown = false;
+    drawOnCanvas(e.offsetX, e.offsetY, 'dragEnd');
 });
 canvas.addEventListener('mouseout', (e) => {
-    isMouseDown = false;
+    drawOnCanvas(e.offsetX, e.offsetY, 'dragEnd');
 });
+
+// canvas.addEventListener('touchstart', e => {
+// })
 
 clean_btn.addEventListener('click', (e) => {
     e.preventDefault();
