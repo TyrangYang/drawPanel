@@ -3,18 +3,27 @@ const clean_btn = document.getElementById('clean-canvas-btn');
 const pen_btn = document.getElementById('use-pen-btn');
 const eraser_btn = document.getElementById('use-erase-btn');
 const ctx = canvas.getContext('2d');
+let PEN_COLOR = '#baba55';
+
 // socket.io
 const client_socket = io();
 
 client_socket.on('msg', (data) => console.log(data));
 client_socket.on('draw', (data) => {
-    let { prev_x, prev_y, x, y } = data;
-    drawLine(prev_x, prev_y, x, y);
+    let { prev_x, prev_y, x, y, color } = data;
+    drawLine(prev_x, prev_y, x, y, color);
 });
 client_socket.on('erase', (data) => {
     let { x, y } = data;
     eraseLine(x, y, 10);
 });
+client_socket.on('clean', () => {
+    cleanCanvas();
+});
+client_socket.on('chooseDefaultPenColor', (penColor) => {
+    PEN_COLOR = penColor;
+});
+////////
 
 let prev_x = 0,
     prev_y = 0,
@@ -23,11 +32,6 @@ let prev_x = 0,
 let isMouseDown = false;
 let using_pen = true;
 let using_eraser = false;
-
-ctx.fillStyle = 'solid';
-ctx.strokeStyle = '#baba55';
-ctx.lineWidth = 5;
-ctx.lineCap = 'round';
 
 let cleanCanvas = () => {
     prev_x = 0;
@@ -46,8 +50,12 @@ let drawColorCircle = (centerX, centerY, radius, color) => {
     ctx.closePath();
 };
 
-let drawLine = (prev_x, prev_y, x, y) => {
+let drawLine = (prev_x, prev_y, x, y, color) => {
     ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = 'solid';
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
     ctx.moveTo(prev_x, prev_y);
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -66,24 +74,26 @@ canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
 });
 canvas.addEventListener('mousemove', (e) => {
+    // console.log('move');
+    // drawColorCircle(e.offsetX, e.offsetY, 3, PEN_COLOR);
     if (isMouseDown) {
         prev_x = x;
         prev_y = y;
         x = e.offsetX;
         y = e.offsetY;
-        console.log(using_pen, using_eraser);
         if (using_pen) {
-            drawLine(prev_x, prev_y, x, y);
-            client_socket.emit('drawMsg', {
+            drawLine(prev_x, prev_y, x, y, PEN_COLOR);
+            client_socket.emit('drawRequest', {
                 prev_x: prev_x,
                 prev_y: prev_y,
                 x: x,
                 y: y,
+                color: PEN_COLOR,
             });
         }
         if (using_eraser) {
             eraseLine(x, y, 10);
-            client_socket.emit('eraseMsg', {
+            client_socket.emit('eraseRequest', {
                 x: x,
                 y: y,
             });
@@ -100,6 +110,7 @@ canvas.addEventListener('mouseout', (e) => {
 clean_btn.addEventListener('click', (e) => {
     e.preventDefault();
     cleanCanvas();
+    client_socket.emit('cleanRequest');
 });
 
 pen_btn.addEventListener('click', (e) => {

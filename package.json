@@ -6,8 +6,7 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
-        "clean": "rm -rf node_modules && rm package-lock.json",
-        "deploy": ""
+        "clean": "rm -rf node_modules && rm package-lock.json"
     },
     "author": "Haolin Yang",
     "license": "MIT",
