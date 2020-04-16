@@ -12,9 +12,14 @@
             <canvas id="canvas" width="1000" height="800"></canvas>
         </span>
         <span class="tools">
-            <button id="clean-canvas-btn">Clean</button>
-            <button id="use-pen-btn">Pen</button>
-            <button id="use-erase-btn">Eraser</button>
+            <button id="clean-canvas-btn" class="btn">Clean</button>
+            <button id="use-pen-btn" class="btn">Pen</button>
+            <input type="range" min="1" max="10" value="5" class="slider" id="lineWidthSlider">
+            <span id='lineWidthValue'></span>
+            <input type="color" id="colorPicker">
+            <button id="use-erase-btn" class="btn">Eraser</button>
+            <input type="range" min="1" max="50" value="15" class="slider" id="eraserRadiusSlider">
+            <span id='eraserRadiusValue'></span>
         </span>
         <script src="/socket.io/socket.io.js"></script>
         <script src="./js/script.js"></script>
