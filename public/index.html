@@ -12,6 +12,7 @@
             <canvas id="canvas" width="1000" height="800"></canvas>
         </span>
         <span class="tools">
+            <button id="undo-canvas-btn" class="btn">Back</button>
             <button id="clean-canvas-btn" class="btn">Clean</button>
             <button id="use-pen-btn" class="btn">Pen</button>
             <input type="range" min="1" max="10" value="5" class="slider" id="lineWidthSlider">
@@ -20,9 +21,13 @@
             <button id="use-erase-btn" class="btn">Eraser</button>
             <input type="range" min="1" max="50" value="15" class="slider" id="eraserRadiusSlider">
             <span id='eraserRadiusValue'></span>
+            <a id="save-canvas-anchor" >
+                <button id="save-canvas-btn" class="btn">Save Canvas</button>
+            </a>
         </span>
         <script src="/socket.io/socket.io.js"></script>
         <script src="./js/script.js"></script>
+        <!-- <script src="./js/test.js"></script> -->
 
     </body>
 </html>
