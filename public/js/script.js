@@ -105,7 +105,13 @@ let drawLine = (prevX, prevY, x, y, lineWidth, color) => {
 };
 
 let eraseLine = (x, y, radius) => {
-    drawColorCircle(x, y, radius, '#f0f0f0');
+    console.log('erase', x, y);
+    // drawColorCircle(x, y, radius, '#f0f0f0');
+    ctx.beginPath();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+    ctx.fill();
+    ctx.closePath();
 };
 
 let drawOnCanvas = (curX, curY, state) => {
@@ -142,7 +148,7 @@ let drawOnCanvas = (curX, curY, state) => {
             }
         }
     } else {
-        ctx.save();
+        // ctx.save();
         isDrawLineStart = false;
     }
 };

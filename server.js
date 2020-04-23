@@ -56,7 +56,6 @@ io.on('connection', (server_socket) => {
 
     server_socket.on('disconnect', () => {
         delete record[server_socket.id];
-        console.log(record);
         console.log(
             `User(socketId: ${server_socket.id}) left at ${moment().format(
                 'MMMM Do YYYY, h:mm:ss a'

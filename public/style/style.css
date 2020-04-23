@@ -63,6 +63,7 @@ h2 {
     display: grid;
     width: 30%;
     justify-content: center;
+    align-items: center;
     background: linear-gradient(30deg, #fefefe, #f0f0f0);
     border: white solid 2px;
     border-radius: 5px;
@@ -77,6 +78,6 @@ h2 {
     box-shadow: 0 8px 16px 0 rgba(249, 249, 249, 0.2);
 }
 .suggest {
-    font-size: 3px;
+    font-size: 15px;
     color: #555;
 }
