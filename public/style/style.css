@@ -11,6 +11,7 @@
 }
 
 body {
+    /* background: url(https://cdn-media-1.freecodecamp.org/imgr/MJAkxbh.png); */
     background-color: #333;
 }
 
@@ -56,4 +57,26 @@ h2 {
     color: var(--light-color);
     border: 0;
     font-size: 17px;
+}
+
+.card {
+    display: grid;
+    width: 30%;
+    justify-content: center;
+    background: linear-gradient(30deg, #fefefe, #f0f0f0);
+    border: white solid 2px;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 0 10px 20px rgba(215, 200, 200, 0.19),
+        0 6px 6px rgba(203, 181, 181, 0.19);
+    transition: 0.3s;
+}
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(249, 249, 249, 0.2);
+}
+.suggest {
+    font-size: 3px;
+    color: #555;
 }

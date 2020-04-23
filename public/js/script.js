@@ -40,6 +40,11 @@ colorPicker.oninput = function () {
 // socket.io
 const clientSocket = io();
 
+let { roomName } = Qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+});
+clientSocket.emit('joinRoom', { roomName });
+
 clientSocket.on('msg', (data) => console.log(data));
 clientSocket.on('draw', (data) => {
     let { prevX, prevY, x, y, lineWidth, color } = data;

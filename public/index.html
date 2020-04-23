@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<p lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,26 +8,24 @@
     </head>
     <body>
         <h1>Scribble</h1>
-        <span class="panel">
-            <canvas id="canvas" width="1000" height="800"></canvas>
-        </span>
-        <span class="tools">
-            <button id="undo-canvas-btn" class="btn">Back</button>
-            <button id="clean-canvas-btn" class="btn">Clean</button>
-            <button id="use-pen-btn" class="btn">Pen</button>
-            <input type="range" min="1" max="10" value="5" class="slider" id="lineWidthSlider">
-            <span id='lineWidthValue'></span>
-            <input type="color" id="colorPicker">
-            <button id="use-erase-btn" class="btn">Eraser</button>
-            <input type="range" min="1" max="50" value="15" class="slider" id="eraserRadiusSlider">
-            <span id='eraserRadiusValue'></span>
-            <a id="save-canvas-anchor" >
-                <button id="save-canvas-btn" class="btn">Save Canvas</button>
-            </a>
-        </span>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="./js/script.js"></script>
-        <!-- <script src="./js/test.js"></script> -->
-
+        <div class="card">
+            <form action="canvas.html">
+                <label for="roomName">Room name</label>
+                <input
+                    type="text"
+                    name="roomName"
+                    id="room-name"
+                    pattern="\w+(-\w+)+"
+                    value="default-root"
+                    required
+                />
+                <p class="suggest">
+                    room name should be words connected with '-'
+                </p>
+                <div>
+                    <button type="submit" class="btn">Join Room</button>
+                </div>
+            </form>
+        </div>
     </body>
 </html>
