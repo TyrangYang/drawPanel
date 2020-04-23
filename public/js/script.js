@@ -111,6 +111,7 @@ let eraseLine = (x, y, radius) => {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.arc(x, y, radius, 0, Math.PI * 2, true);
     ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
     ctx.closePath();
 };
 
