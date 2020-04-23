@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
-        "clean": "rm -rf node_modules && rm package-lock.json"
+        "clean": "rm -rf node_modules && rm package-lock.json",
+        "log": "heroku logs --tail --app scribble-panel "
     },
     "author": "Haolin Yang",
     "license": "MIT",
